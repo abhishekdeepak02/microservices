@@ -1,17 +1,38 @@
 package com.lazycoder.account.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
+@Schema(
+        name = "ErrorResponse",
+        description = "Schema to hold standard error response information"
+)
 @Data
 @AllArgsConstructor
 public class ErrorResponseDto {
 
+    @Schema(
+            description = "API Path where the error occurred",
+            example = "/api/v1/accounts/123456789012"
+    )
     private String apiPath;
+    @Schema(
+            description = "HTTP Status Code of the Error",
+            example = "404"
+    )
     private HttpStatus errorCode;
+    @Schema(
+            description = "Error Message describing the error",
+            example = "Account not found"
+    )
     private String errorMessage;
+    @Schema(
+            description = "Timestamp when the error occurred",
+            example = "2024-06-15T14:30:00"
+    )
     private LocalDateTime errorTime;
 }

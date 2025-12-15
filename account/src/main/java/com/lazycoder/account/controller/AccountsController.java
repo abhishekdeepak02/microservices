@@ -2,9 +2,12 @@ package com.lazycoder.account.controller;
 
 import com.lazycoder.account.constants.AccountsConstants;
 import com.lazycoder.account.dto.CustomerDto;
+import com.lazycoder.account.dto.ErrorResponseDto;
 import com.lazycoder.account.dto.ResponseDto;
 import com.lazycoder.account.service.IAccountsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -76,7 +79,11 @@ public class AccountsController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "HTTP Status INTERNAL SERVER ERROR"
+                    description = "HTTP Status INTERNAL SERVER ERROR",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+
             )
     })
     @PutMapping("/update")
@@ -103,7 +110,10 @@ public class AccountsController {
             ),
             @ApiResponse(
                     responseCode = "500",
-                    description = "HTTP Status INTERNAL SERVER ERROR"
+                    description = "HTTP Status INTERNAL SERVER ERROR",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
             )
     })
     @DeleteMapping("/delete")
