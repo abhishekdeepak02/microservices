@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 public class ErrorResponseDto {
 
     @Schema(
-            description = "API Path where the error occurred",
-            example = "/api/v1/accounts/123456789012"
+            description = "API Path where the error occurred"
     )
     private String apiPath;
     @Schema(
             description = "HTTP Status Code of the Error",
-            example = "404"
+            example = "500"
+
     )
     private HttpStatus errorCode;
     @Schema(
