@@ -4,21 +4,25 @@ import com.lazycoder.account.constants.AccountsConstants;
 import com.lazycoder.account.dto.CustomerDto;
 import com.lazycoder.account.dto.ResponseDto;
 import com.lazycoder.account.service.IAccountsService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api/account", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
+@Validated
 public class AccountsController {
 
     private IAccountsService iAccountsService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createAccount(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
 
         iAccountsService.createAccount(customerDto);
         return ResponseEntity
@@ -27,7 +31,9 @@ public class AccountsController {
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDto> fetchAccount(@RequestParam String mobileNumber) {
+    public ResponseEntity<CustomerDto> fetchAccount(@RequestParam
+            @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile Number must be 10 digit.")
+                                                        String mobileNumber) {
 
         CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
         return ResponseEntity
@@ -36,7 +42,7 @@ public class AccountsController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateAccount(@RequestBody CustomerDto customerDto) {
+    public ResponseEntity<ResponseDto> updateAccount(@Valid @RequestBody CustomerDto customerDto) {
 
         boolean updateAccount = iAccountsService.updateAccount(customerDto);
         if (updateAccount) {
@@ -49,7 +55,9 @@ public class AccountsController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteAccountInfo(@RequestParam String mobileNumber) {
+    public ResponseEntity<ResponseDto> deleteAccountInfo(@RequestParam
+            @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile Number must be 10 digit.")
+                                                             String mobileNumber) {
         boolean deleteAccount = iAccountsService.deleteAccount(mobileNumber);
         if(deleteAccount) {
             return ResponseEntity.status(HttpStatus.OK)
